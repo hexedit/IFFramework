@@ -41,8 +41,7 @@ namespace IFFramework\Core
 			}
 			include_once $this->app->modulePath . '/' . $this->module . '.php';
 			isset( $modules[$this->module] ) or $this->no_module();
-
-			in_array( $this->action, $modules[$this->module]['EXPORTS'] ) or $this->no_action();
+			isset( $modules[$this->module]['EXPORTS'][$this->action] ) or $this->no_action();
 		}
 
 		public function run()
@@ -50,8 +49,8 @@ namespace IFFramework\Core
 			global $modules;
 
 			$mod_class = $modules[$this->module]['CLASS_NAME'];
+			$action = $modules[$this->module]['EXPORTS'][$this->action];
 			$mod = new $mod_class();
-			$action = $this->action;
 			$mod->$action( $this->context, $this->context->args );
 		}
 
