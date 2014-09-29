@@ -20,6 +20,7 @@ namespace IFFramework\Core
 		protected $_args;
 		protected $_defaultModule;
 		protected $_defaultAction;
+		protected $_isSecure;
 
 		protected $baseUri;
 
@@ -33,6 +34,7 @@ namespace IFFramework\Core
 			$this->_config = $params['config'];
 			$this->_defaultModule = ( isset($params['default_module']) && !empty($params['default_module']) ) ? $params['default_module'] : 'root';
 			$this->_defaultAction = ( isset($params['default_action']) && !empty($params['default_action']) ) ? $params['default_action'] : 'index';
+			$this->_isSecure = filter_var( getenv( 'HTTPS' ), FILTER_VALIDATE_BOOLEAN );
 			$this->baseUri = $params['base_uri'];
 			$this->modelPath = $params['model_path'];
 
@@ -49,7 +51,7 @@ namespace IFFramework\Core
 
 			$this->_stash = (object)array();
 			$this->_view = null;
-			
+
 			// Разбиваем path на составляющие
 			$path = explode( '/', $_GET['_path'] );
 			$this->_module = ( $path[0] && count( $path ) > 1 ) ? $path[0] : '';
@@ -80,7 +82,7 @@ namespace IFFramework\Core
 
 		public function uri_for( $path )
 		{
-			$http_scheme = isset( $_ENV['HTTPS'] ) && $_ENV['HTTPS'] ? 'https' : 'http';
+			$http_scheme = $this->isSecure ? 'https' : 'http';
 			return $http_scheme . '://' . $_SERVER['HTTP_HOST'] . $this->baseUri . $path;
 		}
 
