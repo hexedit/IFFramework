@@ -88,7 +88,7 @@ namespace IFFramework\Core
 
 		public function is_current( $path )
 		{
-			return $_SERVER['REQUEST_URI'] === $this->baseUri . $path;
+			return urldecode( $_SERVER['REQUEST_URI'] ) === $this->baseUri . $path;
 		}
 
 	}
