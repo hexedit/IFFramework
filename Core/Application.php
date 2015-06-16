@@ -90,6 +90,7 @@ namespace IFFramework\Core
 				error_log( sprintf( "[%s] %s%s (#%d)", $this->title, $e->getMessage(), $e->getPrevious() ? sprintf( ": %s", $e->getPrevious()->getMessage() ) : '', $e->getCode() ) );
 				if ( defined( 'IFF_FORWARD_EXCEPTIONS' ) && IFF_FORWARD_EXCEPTIONS )
 				{
+					$dispatcher = null;
 					throw $e;
 				}
 				else
