@@ -22,7 +22,7 @@ namespace IFFramework\Core
 				'basePath' => realpath( dirname( $_SERVER[ 'SCRIPT_FILENAME' ] ) ),
 				'baseUri' => str_replace( $_SERVER[ 'DOCUMENT_ROOT' ], '', dirname( $_SERVER[ 'SCRIPT_FILENAME' ] ) ),
 				'uriPath' => isset( $_SERVER[ 'PATH_INFO' ] ) ? $_SERVER[ 'PATH_INFO' ] : '',
-				'debug' => defined( 'IFF_DEBUG' ) ? IFF_DEBUG : true
+				'debug' => defined( 'IFF_DEBUG' ) ? IFF_DEBUG : false
 			);
 			
 			$conf_name = defined( 'IFF_CONFIG' ) ? IFF_CONFIG : basename( $this->basePath ) . '.conf';
