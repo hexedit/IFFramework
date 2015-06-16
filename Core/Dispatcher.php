@@ -24,7 +24,12 @@ namespace IFFramework\Core
 			
 			$this->params = (object) $params;
 			
-			$this->splitPath( $params[ 'uriPath' ] );
+			$path_parts = explode( '/', ltrim( $params[ 'uriPath' ], '/' ) );
+			$this->controller = ( isset( $path_parts[ 0 ] ) && count( $path_parts ) > 1 ) ? $path_parts[ 0 ] : $this->params->defaultController;
+			$this->action = $path_parts[ count( $path_parts ) - 1 ] ? $path_parts[ count( $path_parts ) - 1 ] : $this->params->defaultAction;
+			unset( $path_parts[ count( $path_parts ) - 1 ] );
+			unset( $path_parts[ 0 ] );
+			$this->args = array_values( $path_parts );
 			include_once $params[ 'controllerDir' ] . DIRECTORY_SEPARATOR . $this->controller . '.php';
 		}
 
@@ -33,17 +38,7 @@ namespace IFFramework\Core
 			ob_end_clean();
 		}
 
-		protected function splitPath( $path )
-		{
-			$path_parts = explode( '/', ltrim( $path, '/' ) );
-			$this->controller = ( isset( $path_parts[ 0 ] ) && count( $path_parts ) > 1 ) ? $path_parts[ 0 ] : $this->params->defaultController;
-			$this->action = $path_parts[ count( $path_parts ) - 1 ] ? $path_parts[ count( $path_parts ) - 1 ] : $this->params->defaultAction;
-			unset( $path_parts[ count( $path_parts ) - 1 ] );
-			unset( $path_parts[ 0 ] );
-			$this->args = array_values( $path_parts );
-		}
-
-		public function runAction( $ctx )
+		public function runAction( Context $ctx )
 		{
 			global $controller;
 			
