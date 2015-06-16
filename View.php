@@ -1,5 +1,4 @@
 <?php
-
 namespace IFFramework
 {
 
@@ -14,12 +13,9 @@ namespace IFFramework
 	abstract class View
 	{
 
-		public function __construct( Application $app, Context $ctx, Dispatcher $disp )
-		{
-		}
+		public function __construct( Context $ctx )
+		{}
 
-		abstract public function process( Context $ctx, $module, $action );
-
+		abstract public function render( Context $ctx, $controller, $action );
 	}
-
 }

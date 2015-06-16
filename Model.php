@@ -1,18 +1,15 @@
 <?php
-
 namespace IFFramework
 {
 
 	abstract class Model
 	{
 
-		protected $params;
+		protected $context;
 
-		public function __construct( $params )
+		public function __construct( $ctx )
 		{
-			$this->params = $params;
+			$this->context = $ctx;
 		}
-
 	}
-
 }

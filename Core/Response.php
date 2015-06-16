@@ -1,5 +1,4 @@
 <?php
-
 namespace IFFramework\Core
 {
 
@@ -8,7 +7,7 @@ namespace IFFramework\Core
 
 		protected $_code;
 
-		protected $_content_type;
+		protected $_contentType;
 
 		protected $_encoding;
 
@@ -17,7 +16,7 @@ namespace IFFramework\Core
 		public function __construct()
 		{
 			$this->_code = 200;
-			$this->_content_type = 'text/plain';
+			$this->_contentType = 'text/plain';
 			$this->_encoding = null;
 			$this->_body = null;
 		}
@@ -39,7 +38,5 @@ namespace IFFramework\Core
 			header( "Location: $url", true, $code );
 			$this->_code = $code;
 		}
-
 	}
-
 }

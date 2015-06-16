@@ -1,15 +1,11 @@
 <?php
-
 namespace IFFramework\Core
 {
 
 	class Session
 	{
 
-		public function __construct( $session = null )
-		{
-		}
-
+		public function __construct()
+		{}
 	}
-
 }
