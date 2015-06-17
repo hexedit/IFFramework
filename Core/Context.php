@@ -38,7 +38,7 @@ namespace IFFramework\Core
 			$this->_config = $params[ 'config' ];
 			
 			$this->params = (object) $params;
-			$this->isSecure = false; // TODO isSecure
+			$this->isSecure = filter_var( getenv( 'HTTPS' ), FILTER_VALIDATE_BOOLEAN );
 		}
 
 		protected function set_view( $new )
