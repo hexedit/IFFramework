@@ -76,7 +76,7 @@ namespace IFFramework\Core
 
 		public function uri_for( $path )
 		{
-			$http_scheme = $this->params->isSecure ? 'https' : 'http';
+			$http_scheme = $this->isSecure ? 'https' : 'http';
 			return $http_scheme . '://' . $_SERVER[ 'HTTP_HOST' ] . $this->params->baseUri . $path;
 		}
 		

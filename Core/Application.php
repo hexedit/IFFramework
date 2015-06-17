@@ -18,7 +18,7 @@ namespace IFFramework\Core
 		private function __construct()
 		{
 			$this->params = array(
-				'version' => '0.3.3',
+				'version' => '0.3.4',
 				'basePath' => realpath( dirname( $_SERVER[ 'SCRIPT_FILENAME' ] ) ),
 				'baseUri' => str_replace( $_SERVER[ 'DOCUMENT_ROOT' ], '', dirname( $_SERVER[ 'SCRIPT_FILENAME' ] ) ),
 				'uriPath' => isset( $_SERVER[ 'PATH_INFO' ] ) ? $_SERVER[ 'PATH_INFO' ] : '',
