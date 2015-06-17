@@ -45,13 +45,28 @@ namespace IFFramework\Core
 		{
 			$this->_view = $new;
 		}
+		
+		protected function get_title()
+		{
+			return $this->config->title;
+		}
+		
+		protected function get_controller()
+		{
+			return $this->params->controller;
+		}
+		
+		protected function get_action()
+		{
+			return $this->params->action;
+		}
 
 		public function model( $model )
 		{
 			try
 			{
-				require_once $this->params->modelPath . DIRECTORY_SEPARATOR . $model . '.php';
-				return new $model( this );
+				require_once $this->params->modelDir . DIRECTORY_SEPARATOR . $model . '.php';
+				return new $model( $this );
 			}
 			catch ( Exception $e )
 			{
@@ -63,6 +78,11 @@ namespace IFFramework\Core
 		{
 			$http_scheme = $this->params->isSecure ? 'https' : 'http';
 			return $http_scheme . '://' . $_SERVER[ 'HTTP_HOST' ] . $this->params->baseUri . $path;
+		}
+		
+		public function path_for( $path )
+		{
+			return $this->params->basePath . DIRECTORY_SEPARATOR . $path;
 		}
 
 		public function is_current( $path )

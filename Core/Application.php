@@ -18,7 +18,7 @@ namespace IFFramework\Core
 		private function __construct()
 		{
 			$this->params = array(
-				'version' => '0.3.0',
+				'version' => '0.3.3',
 				'basePath' => realpath( dirname( $_SERVER[ 'SCRIPT_FILENAME' ] ) ),
 				'baseUri' => str_replace( $_SERVER[ 'DOCUMENT_ROOT' ], '', dirname( $_SERVER[ 'SCRIPT_FILENAME' ] ) ),
 				'uriPath' => isset( $_SERVER[ 'PATH_INFO' ] ) ? $_SERVER[ 'PATH_INFO' ] : '',
@@ -77,9 +77,12 @@ namespace IFFramework\Core
 				
 				$context = new Context( array(
 					'baseUri' => $this->baseUri,
+					'basePath' => $this->basePath,
 					'defaultView' => 'HTML', // TODO defaultView
 					'modelDir' => $this->getPath( isset( $this->config->modelDir ) ? $this->config->modelDir : 'model' ),
-					'config' => $this->config
+					'config' => $this->config,
+					'controller' => $dispatcher->controller,
+					'action' => $dispatcher->action
 				) );
 				
 				$dispatcher->runAction( $context );

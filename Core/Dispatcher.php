@@ -9,9 +9,9 @@ namespace IFFramework\Core
 	class Dispatcher extends \IFFramework\Object
 	{
 
-		protected $controller;
+		protected $_controller;
 
-		protected $action;
+		protected $_action;
 
 		protected $args;
 
@@ -19,7 +19,6 @@ namespace IFFramework\Core
 
 		public function __construct( $params )
 		{
-			global $controller;
 			ob_start();
 			
 			$this->params = (object) $params;
@@ -30,33 +29,44 @@ namespace IFFramework\Core
 			unset( $path_parts[ count( $path_parts ) - 1 ] );
 			unset( $path_parts[ 0 ] );
 			$this->args = array_values( $path_parts );
-			include_once $params[ 'controllerDir' ] . DIRECTORY_SEPARATOR . $this->controller . '.php';
 		}
 
 		public function __destruct()
 		{
 			ob_end_clean();
 		}
+		
+		public function set_controller( $new )
+		{
+			$this->_controller = $new ? $new : $this->params->defaultController;
+			global $controller;
+			include_once $this->params->controllerDir . DIRECTORY_SEPARATOR . $this->_controller . '.php';
+		}
+		
+		public function set_action( $new )
+		{
+			$this->_action = $new ? $new : $this->params->defaultAction;
+		}
 
 		public function runAction( Context $ctx )
 		{
 			global $controller;
 			
-			if ( !isset( $controller[ $this->controller ] ) && !isset( $controller[ $this->controller ][ 'CLASS_NAME' ] ) )
-				throw new \Exception( sprintf( "Controller '%s' not found", $this->controller ), 404 );
+			if ( !isset( $controller[ $this->_controller ] ) && !isset( $controller[ $this->_controller ][ 'CLASS_NAME' ] ) )
+				throw new \Exception( sprintf( "Controller '%s' not found", $this->_controller ), 404 );
 			
-			$mod_class = $controller[ $this->controller ][ 'CLASS_NAME' ];
+			$mod_class = $controller[ $this->_controller ][ 'CLASS_NAME' ];
 			if ( !class_exists( $mod_class ) )
-				throw new \Exception( sprintf( "Controller '%s' unavailable", $this->controller ), 404 );
+				throw new \Exception( sprintf( "Controller '%s' unavailable", $this->_controller ), 404 );
 			
 			$mod = new $mod_class( $ctx );
 			
-			if ( !isset( $controller[ $this->controller ][ 'EXPORTS' ] ) && !isset( $controller[ $this->controller ][ 'EXPORTS' ][ $this->action ] ) )
-				throw new \Exception( sprintf( "Action '%s' is not found in '%s'", $this->action, $this->controller ), 404 );
+			if ( !isset( $controller[ $this->_controller ][ 'EXPORTS' ] ) && !isset( $controller[ $this->_controller ][ 'EXPORTS' ][ $this->action ] ) )
+				throw new \Exception( sprintf( "Action '%s' is not found in '%s'", $this->action, $this->_controller ), 404 );
 			
-			$action = $controller[ $this->controller ][ 'EXPORTS' ][ $this->action ];
+			$action = $controller[ $this->_controller ][ 'EXPORTS' ][ $this->action ];
 			if ( !method_exists( $mod, $action ) )
-				throw new \Exception( sprintf( "Action '%s' is not found in '%s'", $this->action, $this->controller ), 404 );
+				throw new \Exception( sprintf( "Action '%s' is not found in '%s'", $this->action, $this->_controller ), 404 );
 			
 			$mod->$action( $ctx, $this->args );
 		}
@@ -82,7 +92,7 @@ namespace IFFramework\Core
 				$ctx->stash->debug = $this->getLog();
 				$ctx->stash->runtime = microtime( true ) - $_SERVER[ "REQUEST_TIME_FLOAT" ];
 				
-				$view->render( $ctx, $this->controller, $this->action );
+				$view->render( $ctx, $this->_controller, $this->action );
 			}
 		}
 

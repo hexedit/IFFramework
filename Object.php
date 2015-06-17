@@ -16,14 +16,14 @@ namespace IFFramework
 				if ( isset( $this->$_prop ) )
 					return $this->$_prop;
 				else
-					throw new \Exception( "Property '$prop' not found" );
+					throw new \Exception( sprintf( "Property '%s' not found", $prop ) );
 		}
 
 		public function __set( $prop, $val )
 		{
 			$set = "set_$prop";
 			if ( !method_exists( $this, $set ) )
-				throw new \Exception( "Property access violation - '$prop'" );
+				throw new \Exception( sprintf( "Property access violation - '%s'", $prop ) );
 			$this->$set( $val );
 		}
 	}
